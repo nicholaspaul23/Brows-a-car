@@ -7,6 +7,7 @@ dirname = os.path.dirname(rootFile)
 sys.path.append(os.path.join(dirname, "Face_Detection"))  # "src/Face_Detection"
 sys.path.append(os.path.join(dirname, "Facial_Recognition")) # "scr/Facial_Recognition"
 sys.path.append(os.path.join(dirname, "Emotion_Detection")) # "src/Emotion_Detection"
+sys.path.append(os.path.join(dirname, "Cluster_Segmentation")) # "src/Cluster_Segmentation"
 
 # Modules
 from Face_Detection.capture import *
@@ -15,8 +16,8 @@ from Facial_Recognition.train import processFaceData, trainFacialRecognizer
 from Facial_Recognition.recognizer import beginFacialRecognition
 from Emotion_Detection.emotion_analyzer import *
 from init_user import initUser, initializeUser
+from Cluster_Segmentation.cluster_predict import *
 
-# !!!! DELETE ME !!!! cd Documents/Python-Portfolio/Brows-a-car/src
 
 
 # Driver
@@ -40,6 +41,10 @@ try:
     beginFacialRecognition(userDB.getCurrentUser())
     emoAnalyzer = EmoAnalyzer()
     emoAnalyzer.processEmotionResponse(withRec=True)
+    emoAnalyzer.tallyResults()
+    cluster = emoAnalyzer.returnRecCluster()
+    clusterPred = ClusterPredict()
+    clusterPred.suggestThreeCars(cluster, printRes=True)
 
 except KeyboardInterrupt:
     print("Exiting program...")
